@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#homepage{
+    height: calc(100vh - 56px);
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("https://c0.wallpaperflare.com/path/256/624/848/bread-burlap-close-up-club-sandwich-e5015197042c1695b4fb39d04b2f9f63.jpg");
+    background-size: cover;
+  }
