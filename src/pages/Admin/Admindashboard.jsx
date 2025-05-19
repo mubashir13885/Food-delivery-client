@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-function Admindshboard() {
+function Admindashboard() {
     const navigate = useNavigate()
   return (
     <div>
@@ -36,4 +36,4 @@ function Admindshboard() {
   )
 }
 
-export default Admindshboard
+export default Admindashboard

@@ -13,7 +13,7 @@ import Order from "../pages/Admin/Order";
 import Add from "../pages/Admin/Add";
 import HomePage from "../pages/user/HomePage";
 import UserLayout from "../layout/UserLayout"
-import Admindshboard from "../pages/Admin/Admindshboard";
+import Admindashboard from "../pages/Admin/Admindashboard";
 
 
 export const router = createBrowserRouter([
@@ -73,7 +73,7 @@ export const router = createBrowserRouter([
         }, 
         {
             path: "dashboard",
-            element: <Admindshboard />
+            element: <Admindashboard/>
         },
         {
             path: "add",
