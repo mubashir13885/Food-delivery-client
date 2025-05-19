@@ -13,14 +13,7 @@ import Order from "../pages/Admin/Order";
 import Add from "../pages/Admin/Add";
 import HomePage from "../pages/user/HomePage";
 import UserLayout from "../layout/UserLayout"
-
-
-
-
-
-
-
-
+import Admindshboard from "../pages/Admin/Admindshboard";
 
 
 export const router = createBrowserRouter([
