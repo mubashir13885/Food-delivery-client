@@ -12,3 +12,6 @@ export const userSignup=(data)=>{
 export const userProfile=()=>{
     return userinstance.get("/user/profile")
 }
+export const userLogout=()=>{
+    return userinstance.post("/user/logout")
+}

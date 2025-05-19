@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { userProfile } from '../../services/userApi';
+import { userLogout, userProfile } from '../../services/userApi';
+import { toast } from 'sonner';
 
 
 function Profilepage() {
@@ -13,6 +14,20 @@ useEffect(()=>{
         
     })
 },[])
+
+const handleLogout = () => {
+    try {
+      userLogout().then(() => {
+        persistor.purge();
+        dispatch(clearUser())
+        toast.success("Logged out successfully");
+        navigate("/");
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
    
       
     
@@ -35,7 +50,7 @@ useEffect(()=>{
                 <h2 className="card-title">{profile.name}</h2>
                 <p className="text-gray-500">{profile.email}</p>
             <div className="card-actions mt-4">
-              <button className="btn btn-outline btn-error btn-sm">Logout</button>
+              <button className="btn btn-outline btn-error btn-sm" onClick={handleLogout} >Logout</button>
             </div>
           </div>
         

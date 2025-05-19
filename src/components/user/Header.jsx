@@ -26,7 +26,7 @@ function Headers() {
          
     
   return (
-       <div className="navbar  bg-white text-red-500 p-3">
+       <div className="navbar position-fixed bg-white text-red-500 p-3">
   <div className="flex-1" onClick={()=>navigate("/")} >
     <a className="btn btn-ghost bg-white text-xl">Epxress</a>
   </div >

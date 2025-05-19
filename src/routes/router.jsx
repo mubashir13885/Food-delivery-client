@@ -8,7 +8,6 @@ import Restaurant from "../pages/user/Restaurant";
 import Restodetails from "../pages/user/Restodetails";
 import Paymentsuccess from "../pages/user/Paymentsuccess";
 import Paymentcancel from "../pages/user/Paymentcancel";
-import Admindshboard from "../pages/Admin/Admindshboard";
 import List from "../pages/Admin/List";
 import Order from "../pages/Admin/Order";
 import Add from "../pages/Admin/Add";
