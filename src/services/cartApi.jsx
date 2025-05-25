@@ -13,3 +13,6 @@ export const getCart=()=>{
 export const makePayment = (data) => {
     return userinstance.post("/payment/checkout", data)
 }
+export const clearCart = () => {
+  return userinstance.post('/cart/clearcart'); 
+};

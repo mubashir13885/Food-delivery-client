@@ -15,3 +15,4 @@ export const userProfile=()=>{
 export const userLogout=()=>{
     return userinstance.post("/user/logout")
 }
+export const userUpdate = (userId, data) => userinstance.patch(`/user/update/${userId}`, data)

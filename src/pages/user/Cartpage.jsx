@@ -3,6 +3,7 @@ import { getCart, makePayment, removeItem } from '../../services/cartApi'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { loadStripe } from '@stripe/stripe-js';
+import { placeOrder } from '../../services/orderApi';
 
 const stripePromise = loadStripe(import.meta.env.VITE_PUBLISHED_KEY_STRIPE);
 
@@ -39,31 +40,32 @@ function Cartpage() {
        });
         
        }
-       const makePaymentFunction = async () => {
-        const body = {
-            products: cartItems
-        }
+    
 
-        const response = await makePayment(body)
-        console.log(response.data.sessionId, "stripe");
+const makePaymentFunction = async () => {
+  try {
+    const body = { products: cartItems };
 
-        const session = response.data.sessionId
+    const response = await makePayment(body);
+    const session = response.data.sessionId;
 
-        const stripe = await stripePromise
+    const stripe = await stripePromise;
+    if (!stripe) throw new Error("Stripe failed to load");
 
-        if (stripe) {
-            const result = await stripe.redirectToCheckout({
-                sessionId: session
-            })
+    const result = await stripe.redirectToCheckout({ sessionId: session });
 
-            if (result.error) {
-                console.log(result.error.message);
+    if (!result.error) {
+      // Place order in backend
+      await placeOrder();
+    } else {
+      console.error(result.error.message);
+    }
 
-            }
-        } else {
-            console.log('Stripe failed to load');
-        }
-      }
+  } catch (err) {
+    console.error("Payment/order error", err);
+  }
+};
+
 
 
   return (
@@ -130,18 +132,15 @@ function Cartpage() {
 
   <div>
     <div className="form-control w-full">
-      <label className="label">
-        <span className="label-text">If you have coupon code, enter here</span>
-      </label>
-      <div className="input-group">
-        <input type="text" placeholder="Coupon code" className="input input-bordered w-full bg-white border-black" />
-        <button className="btn btn-secondary">Submit</button>
+   
+       
+     
       </div>
     </div>
   </div>
 </div>
 
-   </div>
+
   )
 }
 

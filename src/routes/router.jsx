@@ -14,6 +14,8 @@ import Add from "../pages/Admin/Add";
 import HomePage from "../pages/user/HomePage";
 import UserLayout from "../layout/UserLayout"
 import Admindashboard from "../pages/Admin/Admindashboard";
+import AddRestaurant from "../pages/Admin/AddRes";
+import RestaurantList from "../pages/Admin/Restaurants";
 
 
 export const router = createBrowserRouter([
@@ -51,8 +53,8 @@ export const router = createBrowserRouter([
             element: <Restaurant/>
         },
         {
-            path:"restodetails",
-            element: <Restodetails/>
+            path:"restodetails/:id",
+            element: <Restodetails />
         },
         {
             path:"/payment/success",
@@ -86,6 +88,14 @@ export const router = createBrowserRouter([
         {
             path: "order",
             element: <Order/>
+        },
+        {
+            path: "add-restaurant",
+            element: <AddRestaurant/>
+        },
+        {
+            path: "restaurants",
+            element: <RestaurantList/>
         }
       ]
     }

@@ -1,48 +1,79 @@
-import React from 'react'
-import Productpage from './Productpage'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getRestoById } from '../../services/RestoApi';
+import Productpage from './Productpage';
 
-function Restodetails() {
+function Spinner() {
   return (
-    <div>
-        <div class="card bg-white-100 bg-cover  shadow-lg p-6 max-w-3x2 mx-auto">
-  
-  <div class="flex justify-between items-start">
-    <div class="space-y-1">
-      
-      <p class="text-sm text-gray-500">Biryani, Andhra, North Indian, Chinese, Desserts, Ice Cream, Beverages</p>
-      <p class="text-sm text-gray-500">4034, HAL 2nd Stage, 100 Feet Road, Indiranagar, Bangalore</p>
+    <div className="flex justify-center items-center p-10">
+      <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
     </div>
-    <div class="flex space-x-4">
-      <div class="text-center">
-        <span class="badge badge-success text-white text-lg">4.1★</span>
-        <p class="text-xs text-gray-500 mt-1">Dining Ratings</p>
-      </div>
-     
-    </div>
-  </div>
-
- 
-  <div class="flex items-center space-x-4 mt-6 flex-wrap">
-    <span class="badge badge-success">Open now</span>
-    <span class="text-sm text-gray-600">12midnight – 1am, 11am – 12midnight (Today)</span>
-    <button class="btn btn-ghost btn-circle btn-sm tooltip tooltip-bottom" data-tip="More info">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 110 20 10 10 0 010-20z" />
-      </svg>
-    </button>
-
-    <div class="flex items-center space-x-1">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.6c.89 0 1.67.39 2.23 1.02l1.3 1.56a1 1 0 01-.2 1.4l-2.6 2.3a11.05 11.05 0 005.5 5.5l2.3-2.6a1 1 0 011.4-.2l1.56 1.3c.63.56 1.02 1.34 1.02 2.23V19a2 2 0 01-2 2H5a2 2 0 01-2-2V5z" />
-      </svg>
-      <span class="text-sm text-blue-600">+919663578800</span>
-      <button class="text-sm text-blue-600 underline">+1 more</button>
-    </div>
-  </div>
-</div>
-<Productpage/>
-    </div>
-  )
+  );
 }
 
-export default Restodetails
+function Restodetails() {
+  const { id } = useParams();
+  const [resto, setResto] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!id) return;
+
+    setResto(null);
+    setError('');
+    setLoading(true);
+
+    getRestoById(id)
+      .then((res) => {
+        setResto(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load restaurant details:", err);
+        setError('Failed to load restaurant details');
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) return <Spinner />;
+
+  if (error)
+    return (
+      <div className="text-red-500 text-center p-10 font-semibold">
+        {error}
+      </div>
+    );
+
+  if (!resto) return null;
+
+  return (
+    <div className="w-full px-6 py-8 bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+       
+
+
+        <div className="p-6 space-y-3">
+          <p className="text-gray-700 text-lg">
+            <strong>Cuisine:</strong> { 'YES'}
+          </p>
+          <p className="text-gray-700 text-lg">
+            <strong>Location:</strong> {resto.location}
+          </p>
+          <p className="text-gray-700 text-lg">
+            <strong>Operating Hours:</strong> {resto.operating_hours}
+          </p>
+          <span className="inline-block mt-2 px-4 py-2 bg-green-600 text-white rounded-full font-semibold text-lg">
+            Rating: {resto.rating}★
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-12 max-w-7xl mx-auto">
+        <Productpage restaurantId={id} />
+      </div>
+    </div>
+  );
+}
+
+export default Restodetails;
